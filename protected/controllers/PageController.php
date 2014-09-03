@@ -10,9 +10,9 @@ class PageController extends Controller
 
 		if( $name )
 		{
-			$model = page::model()->find('name = :name', array(':name'=>$name));
+			$model = Page::model()->find('name = :name', array(':name'=>$name));
 		}else{
-			$model = page::model()->find();
+			$model = Page::model()->find();
 		}
 		if( $model === null )
 		{
