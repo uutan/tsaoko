@@ -15,8 +15,11 @@ $this->breadcrumbs=array(
 	<div class="col-md-12">
 
 		<img src="<?php echo Yii::app()->theme->baseUrl; ?>/images/404.jpg">
+	
+		<p><?php echo CHtml::encode($message); ?></p>
 		
 	</div>
+	
 
 
 	</div>
