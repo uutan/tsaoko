@@ -32,7 +32,7 @@ class SiteController extends Controller
 		if( empty( $cates) )
 		{
 			$cr = new CDbCriteria;
-			$cr->addInCondition('id',array('48','49','50'));
+			$cr->addInCondition('id',array(48,49,50));
 			$cateModel = ArticleCategory::model()->findAll($cr);
 			$cates = array();
 			foreach($cateModel as $item)
@@ -42,18 +42,65 @@ class SiteController extends Controller
 					'desc' => $item->keywords,
 				);
 			}
-			Yii::app()->cache->set('homecates',$cates);
+			Yii::app()->cache->set('homecates',$cates,60*30, new CFileCacheDependency($this->cacheHomeFile));
 		}
 		$data['cates'] = $cates;
 
-		//var_dump(Article::getList(48));die;
 
-		$data['news'] = array();
+		$data['news'] = $this->getArticleList(48);
+		$data['showcases'] = $this->getArticleList(49);
+		$data['users'] = $this->getArticleList(50);
+
 		
 
 
 		$this->render('index',$data);
 	}
+
+
+	/**
+	 * 获取数据
+	 * 
+	 * @param  [type]  $category_id [description]
+	 * @param  integer $limit       [description]
+	 * @return [type]               [description]
+	 */
+    public function getArticleList($category_id,$limit = 8)
+    {
+    	$cacheName = 'article-list-'.$category_id.'-'.$limit;
+    	$data = Yii::app()->cache->get($cacheName);
+    	if( $data === false ){
+    		$data = array();
+	    	$cateid[] = $category_id;
+	   		$cateModel = ArticleCategory::model()->findAllByAttributes(array('parent_id'=>$category_id));
+
+	   		foreach($cateModel as $item)
+	   		{
+	   			$cateid[] = $item->id;
+	   		}
+	   		
+	   		$cr  = new CDbCriteria;
+	   		$cr->addInCondition('cate_id',$cateid);
+	   		$cr->compare('ischecked',1);
+	   		$cr->limit = $limit;
+	   		$cr->order = 'id DESC';
+	   		
+	   		$articles = Article::model()->findAll($cr);
+
+	   		foreach($articles as $item)
+	   		{
+	   			$data[] = array(
+	   				'id' => $item->id,
+	   				'title' => $item->title,
+	   				'time' => $item->updated,
+	   				'image' => $item->image,
+	   			);
+	   		}
+	   		Yii::app()->cache->set($cacheName, $data, 60*30, new CFileCacheDependency($this->cacheHomeFile));
+   		}
+   		return $data;
+    }
+
 
 	/**
 	 * This is the action to handle external exceptions.

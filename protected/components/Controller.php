@@ -23,6 +23,13 @@ class Controller extends CController
 
     public $indexNumber = 0;
 
+    public $cacheHomeFile = 'cachehome.lock';
+
+    public function __construct($id,$module=null)
+    {
+        parent::__construct($id, $module);
+        $this->cacheHomeFile = Yii::app()->runtimePath.'/'.$this->cacheHomeFile;
+    }
 
     /**
      * 单页页管理
@@ -42,7 +49,7 @@ class Controller extends CController
             {
                 $data[] = array('name'=>$item->name,'title'=>$item->title,'id'=>$item->id); 
             }
-            Yii::app()->cache->set($category,$data);
+            Yii::app()->cache->set($category,$data,60*30, new CFileCacheDependency($this->cacheHomeFile));
         }
         return $data;
     }

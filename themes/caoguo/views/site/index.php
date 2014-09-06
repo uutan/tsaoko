@@ -47,7 +47,7 @@ $this->pageTitle=Yii::app()->name;
 
 
 
-<!-- 多屏介绍 -->
+<!-- 新闻资讯 -->
 <div class="srceen_home section-wrap">
 	<div class="container">
       <h2 class="main-title"><?php echo $cates['48']['name']; ?></h2>
@@ -55,7 +55,10 @@ $this->pageTitle=Yii::app()->name;
 
 		
 		<div class="col-md-12 report-card-items clearfix">
-		
+<?php if($this->beginCache('home_news', array('dependency'=>array(
+        'class'=>'system.caching.dependencies.CDbCacheDependency',
+        'sql'=>'SELECT count(id) FROM article WHERE parent_id = 48')
+        ))) { ?>
 <?php foreach($news as $item): ?>
     <div class="col-md-3">
             <div class="report-card-item">
@@ -67,7 +70,7 @@ $this->pageTitle=Yii::app()->name;
         <div class="info">
           <div class="datetime">
             <?php echo date('Y',$item['time']); ?><br>
-            <?php echo data('m.d',$item['time']); ?>
+            <?php echo date('m.d',$item['time']); ?>
           </div>
           <div class="text">
             <?php echo CHtml::link($item['title'],array('article/view','id'=>$item['id'])); ?>
@@ -76,36 +79,75 @@ $this->pageTitle=Yii::app()->name;
       </div>
       </div>
 <?php endforeach; ?>
-
+<?php $this->endCache(); } ?>
 		</div>
 	</div>
 </div>
 
 
-<!-- 客户介绍 -->
+<!-- 客户案例 -->
 <div class="users_home section-wrap">
 	<div class="container">
       <h2 class="main-title"><?php echo $cates['49']['name']; ?></h2>
       <p class="main-description main-mb"><?php echo $cates['49']['desc']; ?></p>
 
     <div class="col-md-12 report-card-items clearfix">
-    
-
+ <?php if($this->beginCache('home_showcases', array('dependency'=>array(
+        'class'=>'system.caching.dependencies.CDbCacheDependency',
+        'sql'=>'SELECT count(id) FROM article WHERE parent_id = 49')
+        ))) { ?>
+<?php foreach($showcases as $item): ?>
+    <div class="col-md-3">
+            <div class="report-card-item">
+        <div class="frontcover">
+          <a href="<?php echo $this->createUrl('article/view',array('id'=>$item['id'])) ?>" target="_blank">
+          <img src="http://img.36tr.com/poster/2014820/o_18vol43721ahg168tpr1kog1kde7?imageView/1/w/450/h/240" height="160" alt="Syntun">
+          </a>
+        </div>
+        <div class="info">
+          <div class="text">
+            <?php echo CHtml::link($item['title'],array('article/view','id'=>$item['id'])); ?>
+          </div>
+        </div>
+      </div>
+      </div>
+<?php endforeach; ?>
+<?php $this->endCache(); } ?>
     </div>
 		
 	</div>
 </div>
 
 
-<!-- 多屏介绍 -->
+<!-- 客户评价 -->
 <div class="section-wrap">
   <div class="container">
       <h2 class="main-title"><?php echo $cates['50']['name']; ?></h2>
       <p class="main-description main-mb"><?php echo $cates['50']['desc']; ?></p>
 
     
-    <div class="col-md-12">
-      准备中... 
+    <div class="col-md-12 report-card-items clearfix">
+ <?php if($this->beginCache('home_users', array('dependency'=>array(
+        'class'=>'system.caching.dependencies.CDbCacheDependency',
+        'sql'=>'SELECT count(id) FROM article WHERE parent_id = 50')
+        ))) { ?>
+<?php foreach($users as $item): ?>
+    <div class="col-md-3">
+            <div class="report-card-item">
+        <div class="frontcover">
+          <a href="<?php echo $this->createUrl('article/view',array('id'=>$item['id'])) ?>" target="_blank">
+          <img src="http://img.36tr.com/poster/2014820/o_18vol43721ahg168tpr1kog1kde7?imageView/1/w/450/h/240" height="160" alt="Syntun">
+          </a>
+        </div>
+        <div class="info">
+          <div class="text">
+            <?php echo CHtml::link($item['title'],array('article/view','id'=>$item['id'])); ?>
+          </div>
+        </div>
+      </div>
+      </div>
+<?php endforeach; ?>
+<?php $this->endCache(); } ?>
     </div>
 
   </div>

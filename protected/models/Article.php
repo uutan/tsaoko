@@ -60,45 +60,6 @@ class Article extends ActiveRecord
         }
     }
 
-    /**
-     * 获取资讯列表
-     * 
-     * @param  [type]  $category_id [description]
-     * @param  integer $limit       [description]
-     * @return [type]               [description]
-     */
-    public static function getList($category_id,$limit = 8)
-    {
-    	$cacheName = 'article-list-'.$category_id.'-'.$limit;
-    	$data = Yii::app()->cache->get($cacheName);
-    	if( empty($data) ){
-    		$data = array();
-	    	$cateid[] = $category_id;
-	   		$cateModel = ArticleCategory::model()->findAllByAttributes(array('parent_id'=>$category_id));
-	   		foreach($cateModel as $item)
-	   		{
-	   			$cateid[] = $item->id;
-	   		}
-	   		$cr  = new CDbCriteria;
-	   		$cr->addInCondition('cate_id',$cateid);
-	   		$cr->limit = $limit;
-	   		$cr->order = 'id DESC';
-	   		$artcles = Article::model()->findAll($cr);
-	   		foreach($articles as $item)
-	   		{
-	   			$data[] = array(
-	   				'id' => $item->id,
-	   				'title' => $item->title,
-	   				'time' => $item->updated,
-	   				'image' => $item->image,
-	   			);
-	   		}
-	   		Yii::app()->cache->set($cacheName, $data, 86400);
-   		}
-   		return $data;
-    }
-
-
     protected function beforeSave()
     {
         parent::beforeSave();
