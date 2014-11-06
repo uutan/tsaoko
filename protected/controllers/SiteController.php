@@ -27,6 +27,10 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+
+		$this->layout = false;
+
+
 		// cate_id = 48,48,50
 		$cates = Yii::app()->cache->get('homecates');
 		if( empty( $cates) )
@@ -54,7 +58,7 @@ class SiteController extends Controller
 		
 
 
-		$this->render('index',$data);
+		$this->render('come',$data);
 	}
 
 

@@ -9,6 +9,10 @@ $this->breadcrumbs=array(
 );
 ?>
 
+<div class="srceen_home section-wrap">
+	<div class="container">
+      <h2 class="main-title"><?php echo $cates['48']['name']; ?></h2>
+      <p class="main-description main-mb"><?php echo $cates['48']['desc']; ?></p>
 
 <div class="ui-title" style="margin-bottom:20px;">
 行业新闻 / <?php echo $model->category->name; ?>
@@ -24,4 +28,8 @@ $this->breadcrumbs=array(
 <?php echo $model->content; ?>
 </div>
 
+</div>
+
+
+	</div>
 </div>

@@ -19,6 +19,7 @@ return array(
 		'submenu' => array(
 			'资讯管理' => $this->createUrl('/article/index'),
 			'分类管理' => $this->createUrl('/articleCategory/index'),
+			'清理首页缓存' => $this->createUrl('article/touch'),
 			'留言管理' => $this->createUrl('/articleComment/index'),
 			
 		),
